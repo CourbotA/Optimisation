@@ -57,6 +57,7 @@ plot3(bmin3, amin3, 1, 'r - *');
 hold off;
 
 %% Question 5
+figure(3)
 y3 = amin3*x + bmin3 ; 
 scatter(x,y_noisy)
 hold on;
@@ -65,4 +66,10 @@ plot(x,y3);
  %l'estimateur est très sensible au bruit 
  
 %% Question 6
+%Fletcher_lemarechal.m ; 
+%% Question 7
+penalisation=@(r) 0.5*log(1 + r^2);
+dr_penalisation= @(r) 0.5*(2*r)/(1 + r^2) ;
+dr2_pealisation= @(r) (1-r^2) / (1+r^2) ;
 
+%% Question 8 

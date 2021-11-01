@@ -6,8 +6,17 @@ function [xres] = Fletcher_lemarechal(f,fp,x0,eps)
 xk = x0;
 while (abs(fp(xk))> eps)
   dk = -fp(xk); 
-  ak = 0; %Recherche de ak tq f(xk + ak*dk) soit min 
+  fminak = f(xk + 0.05*dk);
+  ak = 0.05;
+    for alpha = 0.1:0.05:1
+       fak = f(xk + alpha*dk);
+       if fak < fminak
+           fminak = fak;
+           ak = alpha;
+       end
+    end
+   %Recherche de ak tq f(xk + ak*dk) soit min 
   xk = xk + ak*dk;
 end
-    xres = xk   
+    xres = xk ;  
 end
