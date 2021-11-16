@@ -3,21 +3,23 @@ load('data.mat');
 
 %% Question 1-2: coût des moindres carrés.
 
+X = cat(2,x,ones(30,1));
+Y = y_noisy;
 fc= zeros();
-f=@(a,b) sum( (a.*x + b -y_noisy).^2 ) ;
+f=@(t) (X*t-Y).'*(X*t-Y);
 amin = -3 ; bmin = -3;
 i=1;j=1;
-fc(i,j)=f(amin,bmin);
-Resultmin = f(amin,bmin);
+fc(i,j)=f([amin;bmin]);
+Resultmin = f([amin;bmin]);
 for a = -3:0.1:7
     j = 1;
     for b = -3:0.1:7
-        if( f(a,b) <= Resultmin)
-            Resultmin = f(a,b) ;
+        if( f([a;b]) <= Resultmin)
+            Resultmin = f([a;b]) ;
             amin = a;
             bmin = b;
         end
-        fc(i,j)=f(a,b);
+        fc(i,j)=f([a;b]);
         j=j+1;
     end
     i = i+1;
@@ -31,8 +33,6 @@ surf(X1,Y1,fc);
 %% Question 3
 
 %mise sous forme quadratique du problème précédent
-X = cat(2,x,ones(30,1));
-Y = y_noisy;
 Q = 2*(X.')*X;
 B = -2*(Y.')*X;
 C = (Y.')*Y;
@@ -49,14 +49,15 @@ amin3 = x2(1) ; bmin3 = x2(2) ;
 %% Question 4 
 
 figure(2)
-a = linspace(-10,10,101);
-b = linspace(-10,10,101);
+a = linspace(-3,7,101);
+b = linspace(-3,7,101);
 contour(a,b,fc,100);
 hold on;
 plot3(bmin3, amin3, 1, 'r - *');
 hold off;
 
 %% Question 5
+figure(3)
 y3 = amin3*x + bmin3 ; 
 scatter(x,y_noisy)
 hold on;
@@ -65,4 +66,69 @@ plot(x,y3);
  %l'estimateur est très sensible au bruit 
  
 %% Question 6
+%Fletcher_lemarechal.m ; 
+fp= @(t) 2*X.'*(X*t-Y);
+x0 = [0;0];
+tmin = Fletcher_lemarechal(f,fp,x0,0.1,0.0005); 
+%% Question 7
+% Representation de la fonction de penalisation pour sigma = 1
+penalisation=@(r) 0.5*log(1 + r^2);
+dr_penalisation= @(r) 0.5*(2*r)/(1 + r^2) ;
+dr2_pealisation= @(r) (1-r^2) / (1+r^2)^2 ; % Convexe pour |r| < 1
+
+xp = [-10:10];
+yp = zeros(1,21);
+for k = -10:10
+    yp(k+11)=penalisation(xp(k+11));
+end
+
+figure(4)
+plot(xp,yp); title('fonction de penalisation');
+%% Question 8 
+
+frob =@(t) sum(arrayfun(penalisation, X*t-Y));
+fcrob= zeros();
+i=1;j=1;
+fc(i,j)=f([-3;-3]);
+Resultmin = f([-3;7]);
+for a = -3:0.1:7
+    j = 1;
+    for b = -3:0.1:7
+        fcrob(i,j)=f([a;b]);
+        j=j+1;
+    end
+    i = i+1;
+end
+
+figure(5)
+a = linspace(-3,7-101);
+b = a;
+contour(a,b,fcrob,100);
+
+%% Question 9
+
+%Pour quand j'aurai resolu le probleme du grad calcule a la main
+%gradCrob =@(a,b) [sum((x.*(a.*x+b-y_noisy))./(1+a.*x+b-y_noisy));sum((a.*x+b-y_noisy)./(1+a.*x+b-y_noisy))];
+%g= zeros(10,10,2);
+%i=1;j=1;
+%g(i,j)=gradCrob([-3;-3]);
+%for a = -3:0.1:7
+%    j = 1;
+%    for b = -3:0.1:7
+%        g(i,j)=[g1,g2];
+%        j=j+1;
+%    end
+%    i = i+1;
+%end
+
+[g1, g2] = gradient(fcrob);
+figure(6)
+a = linspace(-3,7,101);
+b = linspace(-3,7,101);
+quiver(a,b,g1,g2);
+hold on 
+contour(a,b,fcrob,100);
+hold off
+
+%% Question 10
 

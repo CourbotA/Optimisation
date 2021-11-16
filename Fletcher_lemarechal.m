@@ -5,13 +5,17 @@ function [xres] = Fletcher_lemarechal(f,fp,x0,eps,p)
 
 xk = x0;
 while (abs(fp(xk))> eps)
-  dk = -fp(xk); 
+  dk = -fp(xk);
   ak = p;
-  xk2 = xk;
-  while (f(xk2)> f(xk2+p*dk))
-    xk2 = xk2 + p*dk;
+  fminak = f(xk);
+  for alpha = 2*p:p:1
+     if f(xk + alpha.*dk) < fminak
+         fminak = f(xk + alpha.*dk);
+         ak = alpha;
+     end
   end
-  xk = xk + ak*dk;
+  xk = xk + ak.*dk;
 end
-    xres = xk; 
+xres = xk ;  
 end
+
