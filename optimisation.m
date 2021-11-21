@@ -163,9 +163,8 @@ x0 = [0;0];
 [tmin,it,dist,valf,valdf] = Steepest_Descent(frob,gradRob,x0,0.01); 
 nit = [1:size(dist,2)];
 
-dist2 = zeros(1,100);
-for i=1:100
-    dist2(i) = norm(tmin-it(2272+i));
+for i=1:2372
+    dist2(i) = sqrt((tmin(1) -it( 1 , i) )^2 + (tmin(2) -it( 2 , i) )^2 ) ;
 end
 
 figure(2)
@@ -176,14 +175,14 @@ hold on;
 plot(it(2,:), it(1,:), 'r - '); axis equal
 hold off;
 
-figure(3)
+figure(9)
 plot(nit,dist,'r'); title('Distance entre les iteres'); xlabel('iteration'); ylabel('distance entre iterations successives');
 
-figure(5)
-plot(nit(1:100),dist2); title('Distance entre les iteres et la solution'); xlabel('iteration'); ylabel('distance');
+figure(10)
+plot(nit,dist2); title('Distance entre les iteres et la solution'); xlabel('iteration'); ylabel('distance');
 
 
-figure(4)
+figure(11)
 plot(nit, valf,'g', nit, valdf, 'b'); title('Valeurs selon l iteration'); xlabel('iteration');
 legend('Fonction robuste', 'Gradient');
 

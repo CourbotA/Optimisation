@@ -1,13 +1,15 @@
 function [alpha] = Fletcher_lemarechal(f,df,x,dk)
 % initialiasation
-alphal=0;alphar=3; alphai = 0.001 ;
-lambda = 20; beta1 =0.3 ; beta2= 0.5; 
-    gamma = -beta1*df(x)'*dk ;  
+alphal=0;alphar=inf; alphai = 0.0001 ;
+lambda = 40; beta1 =1E-3 ; beta2= 0.99; 
+ gamma = -beta1*df(x)'.*dk ; 
     
         function [bool] = CW1(alphai) %condition de wolf 1 
+           
             bool = false ; 
                 if (f(x + alphai*dk)<= f(x) - alphai*gamma )
                     bool = true;
+                    
                 end
         end
 
@@ -18,21 +20,28 @@ lambda = 20; beta1 =0.3 ; beta2= 0.5;
                     bool = true;
                 end
         end
-
-        while ~( CW1(alphai) && CW2(alphai) )
-            % deux contions respectées : STOP
-           
-            if (CW1(alphai)) %Pas trop court
-                alphal=alphai;
-                alphai=(alphal+alphar)/2 ; 
-                if alphar > 100
-                    alphai=lambda*alphai;
+    sortir = false ; 
+        boucle =1;
+     % deux contions respectées : STOP
+          while ( sortir == false ) 
+           sortir =( CW1(alphai) && CW2(alphai) ) ;
+         boucle = boucle +1;
+         if (boucle>20)
+            sortir = true ; 
+         end
+         if (CW1(alphai)) %Pas trop court
+                 alphal=alphai;  
+                if alphar < inf
+                     alphai=(alphal+alphar)/2;
+                else
+                   alphai=lambda*alphai;
                 end
+                                      
             else %Pas trop Long
-                alphar=alphai;
+                 alphar=alphai;
                 alphai=(alphal+alphar)/2;
-            end  
-        end
+                end  
+         end
          alpha = alphai ; 
 end
 
