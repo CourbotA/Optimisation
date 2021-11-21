@@ -77,7 +77,7 @@ a = linspace(-5,10,151);
 b = linspace(-5,10,151);
 contour(a,b,fc,151);
 hold on;
-plot(it(2,:), it(1,:), 'r - ');
+plot3(it(1,:), , 1, 'r - *');
 hold off;
 
 %% Question 7
