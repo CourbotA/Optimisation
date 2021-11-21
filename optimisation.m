@@ -99,16 +99,21 @@ plot(xp,yp); title('fonction de penalisation');
 frob =@(t) sum(arrayfun(penalisation, X*t-Y));
 fcrob= zeros();
 i=1;j=1;
-fc(i,j)=f([-5;-5]);
+fcrob(i,j)=frob([-5;-5]);
 Resultmin = f([-5;10]);
 for a = -5:0.1:10
     j = 1;
     for b = -5:0.1:10
-        fcrob(i,j)=f([a;b]);
+        fcrob(i,j)=frob([a;b]);
         j=j+1;
     end
     i = i+1;
 end
+
+%affichage 3D
+%[X1,Y1] = meshgrid(-5:0.1:10);
+%figure
+%surf(X1,Y1,fcrob);
 
 figure(5)
 a = linspace(-5,10,151);
@@ -133,8 +138,8 @@ contour(a,b,fcrob);
 
 [g1, g2] = gradient(fcrob);
 figure(6)
-a = linspace(-3,7,101);
-b = linspace(-3,7,101);
+a = linspace(-5,10,151);
+b = linspace(-5,10,151);
 quiver(a,b,g1,g2);
 hold on 
 contour(a,b,fcrob,100);
