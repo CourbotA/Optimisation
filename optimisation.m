@@ -128,15 +128,19 @@ gradRoby =@(r) sum(r ./ (1 + r.^2));
 gradRob =@(r) [gradRobx(r_i(r(1),r(2))); gradRoby(r_i(r(1),r(2)))];
 
 %gradRob =@(t) GradRob(t,x,y_noisy);
-gr = zeros(151,151,2);
+
 gr1= zeros();
 gr2= zeros();
 i=1;j=1;
-gr(i,j)=gradRob([-5;-5]);
+temp=gradRob([-5;-5]);
+gr1(i,j) =temp(1);
+gr2(i,j) = temp(2);
 for a = -5:0.1:10
     j = 1;
     for b = -5:0.1:10
-        gr(i,j)=gradRob([a;b]);
+        temp=gradRob([a;b]);
+        gr1(i,j) =temp(1);
+        gr2(i,j) = temp(2);
         j=j+1;
     end
     i = i+1;
@@ -147,7 +151,7 @@ end
 figure(6)
 a = linspace(-5,10,151);
 b = linspace(-5,10,151);
-quiver(a,b,gr1,gr2); 
+quiver(a,b,gr2,gr1); 
 hold on 
 contour(a,b,fcrob,100); axis equal;
 hold off
@@ -165,4 +169,6 @@ contour(a,b,fcrob,151);
 hold on;
 plot(it(2,:), it(1,:), 'r - '); axis equal
 hold off;
+
+
 
