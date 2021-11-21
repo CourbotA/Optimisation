@@ -111,9 +111,10 @@ for a = -5:0.1:10
 end
 
 %affichage 3D
-%[X1,Y1] = meshgrid(-5:0.1:10);
-%figure
-%surf(X1,Y1,fcrob);
+figure(6)
+[X1,Y1] = meshgrid(-5:0.1:10);
+figure
+surf(X1,Y1,fcrob);
 
 figure(5)
 a = linspace(-5,10,151);
@@ -123,7 +124,7 @@ contour(a,b,fcrob);
 %% Question 9
 
 %Pour quand j'aurai resolu le probleme du grad calcule a la main
-%gradCrob =@(a,b) [sum((x.*(a.*x+b-y_noisy))./(1+a.*x+b-y_noisy));sum((a.*x+b-y_noisy)./(1+a.*x+b-y_noisy))];
+gradCrob =@(a,b) [sum((x.*(a.*x+b-y_noisy))./(1+a.*x+b-y_noisy));sum((a.*x+b-y_noisy)./(1+a.*x+b-y_noisy))];
 %g= zeros(10,10,2);
 %i=1;j=1;
 %g(i,j)=gradCrob([-3;-3]);
@@ -144,6 +145,6 @@ quiver(a,b,g1,g2);
 hold on 
 contour(a,b,fcrob,100);
 hold off
-
+axis equal ;
 %% Question 10
 
