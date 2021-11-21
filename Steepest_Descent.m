@@ -7,7 +7,7 @@ iteres = [x0];
 xk = x0;
 while (abs(fp(xk))> eps)
   dk = -fp(xk); %recherche de la direction Optimale
-  ak=Fletcher_Lemarechal(f,fp,x0,dk); % Recherche du pas optimal
+  ak=Fletcher_lemarechal(f,fp,x0,dk); % Recherche du pas optimal
   xk = xk + ak.*dk;
   iteres = [iteres xk];
 end

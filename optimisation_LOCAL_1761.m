@@ -111,9 +111,10 @@ for a = -5:0.1:10
 end
 
 %affichage 3D
-%[X1,Y1] = meshgrid(-5:0.1:10);
-%figure
-%surf(X1,Y1,fcrob);
+figure(6)
+[X1,Y1] = meshgrid(-5:0.1:10);
+figure
+surf(X1,Y1,fcrob);
 
 figure(5)
 a = linspace(-5,10,151);
@@ -122,47 +123,28 @@ contour(a,b,fcrob);
 
 %% Question 9
 
-r_i =@(a,b) a.*x+b-y_noisy;
-gradRobx =@(r) sum(x.*r ./ (1 + r.^2));
-gradRoby =@(r) sum(r ./ (1 + r.^2));
-gradRob =@(r) [gradRobx(r_i(r(1),r(2))); gradRoby(r_i(r(1),r(2)))];
-
-%gradRob =@(t) GradRob(t,x,y_noisy);
-
-gr1= zeros();
-gr2= zeros();
-i=1;j=1;
-[gr1(i,j),gr2(i,j)]=gradRob([-5;-5]);
-for a = -5:0.1:10
-    j = 1;
-    for b = -5:0.1:10
-        [gr1(i,j);gr2(i,j)]=gradRob([a;b]);
-        j=j+1;
-    end
-    i = i+1;
-end
-
+%Pour quand j'aurai resolu le probleme du grad calcule a la main
+gradCrob =@(a,b) [sum((x.*(a.*x+b-y_noisy))./(1+a.*x+b-y_noisy));sum((a.*x+b-y_noisy)./(1+a.*x+b-y_noisy))];
+%g= zeros(10,10,2);
+%i=1;j=1;
+%g(i,j)=gradCrob([-3;-3]);
+%for a = -3:0.1:7
+%    j = 1;
+%    for b = -3:0.1:7
+%        g(i,j)=[g1,g2];
+%        j=j+1;
+%    end
+%    i = i+1;
+%end
 
 [g1, g2] = gradient(fcrob);
 figure(6)
 a = linspace(-5,10,151);
 b = linspace(-5,10,151);
-quiver(a,b,gr1,gr2); 
+quiver(a,b,g1,g2);
 hold on 
-contour(a,b,fcrob,100); axis equal;
+contour(a,b,fcrob,100);
 hold off
-
+axis equal ;
 %% Question 10
-
-x0 = [0;0];
-[tmin,it] = Steepest_Descent(frob,gradRob,x0,0.01); 
-
-
-figure(2)
-a = linspace(-5,10,151);
-b = linspace(-5,10,151);
-contour(a,b,fcrob,151);
-hold on;
-plot(it(2,:), it(1,:), 'r - '); axis equal
-hold off;
 

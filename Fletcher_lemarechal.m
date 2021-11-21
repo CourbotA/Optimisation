@@ -1,4 +1,4 @@
-function [alpha] = Fletcher_Lemarechal(f,df,x,dk)
+function [alpha] = Fletcher_lemarechal(f,df,x,dk)
 % initialiasation
 alphal=0;alphar=3; alphai = 0.001 ;
 lambda = 20; beta1 =0.3 ; beta2= 0.5; 

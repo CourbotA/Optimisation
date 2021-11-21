@@ -128,15 +128,15 @@ gradRoby =@(r) sum(r ./ (1 + r.^2));
 gradRob =@(r) [gradRobx(r_i(r(1),r(2))); gradRoby(r_i(r(1),r(2)))];
 
 %gradRob =@(t) GradRob(t,x,y_noisy);
-
+gr = zeros(151,151,2);
 gr1= zeros();
 gr2= zeros();
 i=1;j=1;
-[gr1(i,j),gr2(i,j)]=gradRob([-5;-5]);
+gr(i,j)=gradRob([-5;-5]);
 for a = -5:0.1:10
     j = 1;
     for b = -5:0.1:10
-        [gr1(i,j);gr2(i,j)]=gradRob([a;b]);
+        gr(i,j)=gradRob([a;b]);
         j=j+1;
     end
     i = i+1;
