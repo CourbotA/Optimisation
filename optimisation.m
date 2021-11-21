@@ -69,7 +69,7 @@ plot(x,y3);axis on;
 %Fletcher_lemarechal.m ; 
 fp= @(t) 2*X.'*(X*t-Y);
 x0 = [0;0];
-[tmin,it] = Steepest_Descent(f,fp,x0,0.1); 
+[tmin,it,~,~] = Steepest_Descent(f,fp,x0,0.1); 
 
 
 figure(2)
@@ -160,8 +160,13 @@ axis equal ;
 %% Question 10
 
 x0 = [0;0];
-[tmin,it] = Steepest_Descent(frob,gradRob,x0,0.01); 
+[tmin,it,dist,valf,valdf] = Steepest_Descent(frob,gradRob,x0,0.01); 
+nit = [1:size(dist,2)];
 
+dist2 = zeros(1,100);
+for i=1:100
+    dist2(i) = norm(tmin-it(2272+i));
+end
 
 figure(2)
 a = linspace(-5,10,151);
@@ -171,5 +176,14 @@ hold on;
 plot(it(2,:), it(1,:), 'r - '); axis equal
 hold off;
 
+figure(3)
+plot(nit,dist,'r'); title('Distance entre les iteres'); xlabel('iteration'); ylabel('distance entre iterations successives');
 
+figure(5)
+plot(nit(1:100),dist2); title('Distance entre les iteres et la solution'); xlabel('iteration'); ylabel('distance');
+
+
+figure(4)
+plot(nit, valf,'g', nit, valdf, 'b'); title('Valeurs selon l iteration'); xlabel('iteration');
+legend('Fonction robuste', 'Gradient');
 
