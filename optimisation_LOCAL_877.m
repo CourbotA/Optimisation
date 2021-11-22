@@ -73,7 +73,7 @@ x0 = [0;0];
 [tmin,it,~,~] = Steepest_Descent(f,fp,x0,0.1); 
 
 
-figure(4)
+figure(2)
 a = linspace(-5,10,151);
 b = linspace(-5,10,151);
 contour(a,b,fc,151);
@@ -93,7 +93,7 @@ for k = -10:10
     yp(k+11)=penalisation(xp(k+11));
 end
 
-figure(5)
+figure(4)
 plot(xp,yp); title('fonction de penalisation');
 %% Question 8 
 
@@ -117,7 +117,7 @@ figure(6)
 surf(X1,Y1,fcrob);
 %axis equal;
 
-figure(7)
+figure(5)
 a = linspace(-5,10,151);
 b = a;
 contour(a,b,fcrob);
@@ -148,7 +148,7 @@ for a = -5:0.1:10
 end
 
 [g1, g2] = gradient(fcrob);
-figure(8)
+figure(6)
 a = linspace(-5,10,151);
 b = linspace(-5,10,151);
 quiver(a,b,gr2,gr1); 
@@ -163,11 +163,11 @@ x0 = [0;0];
 nit = [1:size(dist,2)];
 dist2 = zeros(1,size(dist,2));
 
-for i=1:size(dist)
+for i=1:nit
     dist2(i) = sqrt((tmin(1) -it( 1 , i) )^2 + (tmin(2) -it( 2 , i) )^2 ) ;
 end
 
-figure(9)
+figure(7)
 a = linspace(-5,10,151);
 b = linspace(-5,10,151);
 contour(a,b,fcrob,151);
@@ -175,72 +175,15 @@ hold on;
 plot(it(2,:), it(1,:), 'r - '); axis equal
 hold off;
 
+figure(8)
+plot(nit,dist,'r'); title('Distance entre les iteres'); xlabel('iteration'); ylabel('distance entre iterations successives');
+
+figure(9)
+plot(nit,dist2); title('Distance entre les iteres et la solution'); xlabel('iteration'); ylabel('distance');
+
 figure(10)
-plot(nit,dist,'r'); title('Distance entre les iteres'); xlabel('iteration'); ylabel('distance entre iterations successives');
-
-figure(11)
-plot(nit,dist2); title('Distance entre les iteres et la solution'); xlabel('iteration'); ylabel('distance');
-
-figure(12)
 plot(nit, valf,'g', nit, valdf, 'b'); title('Valeurs selon l iteration'); xlabel('iteration');
 legend('Fonction robuste', 'Gradient');
-
-%% Recherche avec autres points de depart
-
-x0 = [0;6];
-[tmin,it,dist,valf,valdf] = Steepest_Descent(frob,gradRob,x0,0.01); 
-nit = [1:size(dist,2)];
-dist2 = zeros(1,size(dist,2));
-
-for i=1:size(dist)
-    dist2(i) = sqrt((tmin(1) -it( 1 , i) )^2 + (tmin(2) -it( 2 , i) )^2 ) ;
-end
-
-figure(13)
-a = linspace(-5,10,151);
-b = linspace(-5,10,151);
-contour(a,b,fcrob,151);
-hold on;
-plot(it(2,:), it(1,:), 'r - '); axis equal; title('x0=[0,6]');
-hold off;
-
-figure(14)
-plot(nit,dist,'r'); title('Distance entre les iteres'); xlabel('iteration'); ylabel('distance entre iterations successives');
-
-figure(15)
-plot(nit,dist2); title('Distance entre les iteres et la solution'); xlabel('iteration'); ylabel('distance');
-
-figure(16)
-plot(nit, valf,'g', nit, valdf, 'b'); title('Valeurs selon l iteration'); xlabel('iteration');
-legend('Fonction robuste', 'Gradient');
-%%
-x0 = [3;9];
-[tmin,it,dist,valf,valdf] = Steepest_Descent(frob,gradRob,x0,0.01); 
-nit = [1:size(dist,2)];
-dist2 = zeros(1,size(dist,2));
-
-for i=1:size(dist)
-    dist2(i) = sqrt((tmin(1) -it( 1 , i) )^2 + (tmin(2) -it( 2 , i) )^2 ) ;
-end
-
-figure(17)
-a = linspace(-5,10,151);
-b = linspace(-5,10,151);
-contour(a,b,fcrob,151);
-hold on;
-plot(it(2,:), it(1,:), 'r - '); axis equal; title('x0=[3,9]')
-hold off;
-
-figure(18)
-plot(nit,dist,'r'); title('Distance entre les iteres'); xlabel('iteration'); ylabel('distance entre iterations successives');
-
-figure(19)
-plot(nit,dist2); title('Distance entre les iteres et la solution'); xlabel('iteration'); ylabel('distance');
-
-figure(20)
-plot(nit, valf,'g', nit, valdf, 'b'); title('Valeurs selon l iteration'); xlabel('iteration');
-legend('Fonction robuste', 'Gradient');
-
 
 %% Question 12
 xnewton = Quasi_Newton(frob,gradRob,x0,0.01);
