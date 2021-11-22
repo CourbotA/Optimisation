@@ -69,6 +69,7 @@ plot(x,y3);axis on;
 %Fletcher_lemarechal.m ; 
 fp= @(t) 2*X.'*(X*t-Y);
 x0 = [0;0];
+
 [tmin,it,~,~] = Steepest_Descent(f,fp,x0,0.1); 
 
 
@@ -115,6 +116,7 @@ figure(6)
 [X1,Y1] = meshgrid(-5:0.1:10);
 figure
 surf(X1,Y1,fcrob);
+axis equal;
 
 figure(5)
 a = linspace(-5,10,151);
