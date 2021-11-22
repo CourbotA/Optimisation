@@ -1,8 +1,8 @@
 function [alpha] = Fletcher_lemarechal(f,df,x,dk)
 % initialiasation
 alpha_0 = 0.1;
-beta_1 = 0.1;
-beta_2 = 0.99;
+beta_1 = 0.5;
+beta_2 = 0.7;
 alpha_i = alpha_0;
 alpha_l = 0;
 alpha_r = 1/0;

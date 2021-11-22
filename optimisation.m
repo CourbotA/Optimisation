@@ -114,9 +114,8 @@ end
 %affichage 3D
 figure(6)
 [X1,Y1] = meshgrid(-5:0.1:10);
-figure
 surf(X1,Y1,fcrob);
-axis equal;
+%axis equal;
 
 figure(5)
 a = linspace(-5,10,151);
@@ -124,8 +123,6 @@ b = a;
 contour(a,b,fcrob);
 
 %% Question 9
-
-
 r_i =@(a,b) a.*x+b-y_noisy;
 gradRobx =@(r) sum(x.*r ./ (1 + r.^2));
 gradRoby =@(r) sum(r ./ (1 + r.^2));
@@ -164,12 +161,13 @@ axis equal ;
 x0 = [0;0];
 [tmin,it,dist,valf,valdf] = Steepest_Descent(frob,gradRob,x0,0.01); 
 nit = [1:size(dist,2)];
+dist2 = zeros(1,size(dist,2));
 
-for i=1:2372
+for i=1:nit
     dist2(i) = sqrt((tmin(1) -it( 1 , i) )^2 + (tmin(2) -it( 2 , i) )^2 ) ;
 end
 
-figure(2)
+figure(7)
 a = linspace(-5,10,151);
 b = linspace(-5,10,151);
 contour(a,b,fcrob,151);
@@ -177,14 +175,13 @@ hold on;
 plot(it(2,:), it(1,:), 'r - '); axis equal
 hold off;
 
-figure(9)
+figure(8)
 plot(nit,dist,'r'); title('Distance entre les iteres'); xlabel('iteration'); ylabel('distance entre iterations successives');
 
-figure(10)
+figure(9)
 plot(nit,dist2); title('Distance entre les iteres et la solution'); xlabel('iteration'); ylabel('distance');
 
-
-figure(11)
+figure(10)
 plot(nit, valf,'g', nit, valdf, 'b'); title('Valeurs selon l iteration'); xlabel('iteration');
 legend('Fonction robuste', 'Gradient');
 
