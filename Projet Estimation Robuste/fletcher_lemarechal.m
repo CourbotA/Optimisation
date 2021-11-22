@@ -1,7 +1,7 @@
 function [ alpha_approxi ] = fletcher_lemarechal(x_k, direction_k, data_x, data_y)
 
 
-alpha_0 = 0.1;
+alpha_0 = 1;
 beta_1 = 0.1;
 beta_2 = 0.99;
 alpha_i = alpha_0;

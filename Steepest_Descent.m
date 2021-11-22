@@ -11,7 +11,7 @@ xk = x0;
 temp = xk;
 while (abs(df(xk))> eps)
   dk = -df(xk); %recherche de la direction Optimale
-  ak=Fletcher_lemarechal(f,df,xk,dk); % Recherche du pas optimal
+  ak=Fletcher_lemarechal(f,df,xk,dk,0.1); % Recherche du pas optimal
   temp = xk;
   xk = xk + ak*dk;
   iteres = [iteres xk];

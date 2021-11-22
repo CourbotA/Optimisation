@@ -1,19 +1,25 @@
-function [xres] = Quasi_Newton(f,gradf,xk,Hk_1,eps)
+function [xres] = Quasi_Newton(f,gradf,xk,eps)
 %initialisation
+I = eye(size(xk,1));
+invH=I;
+
     
-    while ~(gradf(xk)<= eps) 
+   while (abs(gradf(xk))> eps)
     %calcul de la direction dk
-    dk = - Hk_1*gradf(xk);
+    dk = - invH*gradf(xk);
 
     %Recherche du pas
-    ak = Fletcher_Lemarechal(f,df,x,dk);
+    ak = Fletcher_lemarechal(f,gradf,xk,dk,1);
     
     % calcul du nouvel xk
     xk_1 = xk+ak*dk;
 
-    %mise a jours de Hk_1
-    Hk_1 = ( gradf(xk_1)-gradf(xk) )/(xk_1 - xk) ; 
-    xk=xk_1;
+    %maj de la matrice H
+    yk_1 = gradf(xk_1) - gradf(xk) ; 
+    dk_1 = xk_1 -xk ; 
+    invH = (I- (dk_1*yk_1')/(dk_1'*yk_1) )*invH*(I- (yk_1*dk_1')/(dk_1'*yk_1) ) + (dk_1*dk_1')/(dk_1'*yk_1) ;
+    xk = xk_1;
+    
     end
     xres = xk;
 end

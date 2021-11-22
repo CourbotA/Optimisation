@@ -185,3 +185,6 @@ figure(10)
 plot(nit, valf,'g', nit, valdf, 'b'); title('Valeurs selon l iteration'); xlabel('iteration');
 legend('Fonction robuste', 'Gradient');
 
+%% Question 12
+xnewton = Quasi_Newton(frob,gradRob,x0,0.01);
+
